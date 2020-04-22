@@ -1,6 +1,7 @@
 #include "loader.h"
 
 #ifdef __EMSCRIPTEN__
+void (*gl4es_getMainFBSize)(GLint* width, GLint* height);
 
 void *gles = (void*)(~(uintptr_t)0);
 void *egl = (void*)(~(uintptr_t)0);
