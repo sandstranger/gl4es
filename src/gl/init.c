@@ -668,18 +668,14 @@ void initialize_gl4es() {
         env(LIBGL_NOPSA, globals4es.nopsa, "Don't use PrecompiledShaderArchive");
         if(globals4es.nopsa==0) {
             cwd[0]='\0';
-            // TODO: What to do on ANDROID and EMSCRIPTEN?
-#ifdef __linux__
-            const char* home = GetEnvVar("HOME");
-            if(home)
-                strcpy(cwd, home);
-            if(cwd[strlen(cwd)]!='/')
-                strcat(cwd, "/");
-#elif defined AMIGAOS4
-            strcpy(cwd, "PROGDIR:");
-#endif
+
+            strcpy(cwd, GetEnvVar("OPENMW_USER_FILE_STORAGE"));
+
             if(strlen(cwd)) {
-                strcat(cwd, ".gl4es.psa");
+                if(globals4es.nohighp)
+                    strcat(cwd, ".gl4es.psa-mediump");
+                else
+                    strcat(cwd, ".gl4es.psa-highp");
                 fpe_InitPSA(cwd);
                 fpe_readPSA();
             }

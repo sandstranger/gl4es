@@ -196,9 +196,9 @@ static const char* gl4es_FogParametersSource =
 "struct gl_FogParameters {\n"
 "    lowp vec4 color;\n"
 "    mediump float density;\n"
-"    mediump float start;\n"
-"    mediump float end;\n"
-"    mediump float scale;\n"   // Derived:   1.0 / (end - start) 
+"    highp float start;\n"
+"    highp float end;\n"
+"    highp float scale;\n"   // Derived:   1.0 / (end - start) 
 "};\n"
 "uniform gl_FogParameters gl_Fog;\n";
 static const char* gl4es_FogParametersSourceHighp =
@@ -582,6 +582,17 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
       const char* GLESUseShaderLod = "#extension GL_EXT_shader_texture_lod : enable\n";
       Tmp = InplaceInsert(GetLine(Tmp, 1), GLESUseShaderLod, Tmp, &tmpsize);
   }
+
+  const char* GLESUseShaderNonConstantGlobalInitialzers = "#extension GL_EXT_shader_non_constant_global_initializers : enable\n";
+  Tmp = InplaceInsert(GetLine(Tmp, 1), GLESUseShaderNonConstantGlobalInitialzers, Tmp, &tmpsize);
+
+  const char* GLESUseShader3DTextures = "#extension GL_OES_texture_3D : enable\n";
+  Tmp = InplaceInsert(GetLine(Tmp, 1), GLESUseShader3DTextures, Tmp, &tmpsize);
+
+
+  const char* GLESUseShaderSamplers = "#extension GL_EXT_shadow_samplers : enable\n";
+  Tmp = InplaceInsert(GetLine(Tmp, 1), GLESUseShaderSamplers, Tmp, &tmpsize);
+
   if(!isVertex && (FindString(Tmp, "texture2DLod"))) {
       if(hardext.shaderlod) {
         Tmp = InplaceReplace(Tmp, &tmpsize, "texture2DLod", "texture2DLodEXT");
@@ -904,8 +915,9 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
               if(builtin_matrix[i].matrix == MAT_MV) {
                 if(need->need_mvmatrix && !hardext.highp)
                   ishighp = 0;
-                if(!hardext.highp && !isVertex)
+                if(/*!hardext.highp &&*/ !isVertex)
                   need->need_mvmatrix = 1;
+                  ishighp = 1  //force highp;
               }
               if(builtin_matrix[i].matrix == MAT_MVP) {
                 if(need->need_mvpmatrix && !hardext.highp)
@@ -1043,7 +1055,8 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
     Tmp = InplaceReplace(Tmp, &tmpsize, "gl_Point", "_gl4es_Point");
   if(strstr(Tmp, "gl_FogParameters") || strstr(Tmp, "gl_Fog"))
     {
-      Tmp = InplaceInsert(GetLine(Tmp, headline), hardext.highp?gl4es_FogParametersSourceHighp:gl4es_FogParametersSource, Tmp, &tmpsize);
+      //Tmp = InplaceInsert(GetLine(Tmp, headline), hardext.highp?gl4es_FogParametersSourceHighp:gl4es_FogParametersSource, Tmp, &tmpsize);
+      Tmp = InplaceInsert(GetLine(Tmp, headline), gl4es_FogParametersSource, Tmp, &tmpsize);
       headline+=CountLine(gl4es_FogParametersSource);
       Tmp = InplaceReplace(Tmp, &tmpsize, "gl_FogParameters", "_gl4es_FogParameters");
     }
