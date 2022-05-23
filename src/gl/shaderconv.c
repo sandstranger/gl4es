@@ -583,16 +583,16 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
       Tmp = InplaceInsert(GetLine(Tmp, 1), GLESUseShaderLod, Tmp, &tmpsize);
   }
 
+/*
   const char* GLESUseShaderNonConstantGlobalInitialzers = "#extension GL_EXT_shader_non_constant_global_initializers : enable\n";
   Tmp = InplaceInsert(GetLine(Tmp, 1), GLESUseShaderNonConstantGlobalInitialzers, Tmp, &tmpsize);
 
   const char* GLESUseShader3DTextures = "#extension GL_OES_texture_3D : enable\n";
   Tmp = InplaceInsert(GetLine(Tmp, 1), GLESUseShader3DTextures, Tmp, &tmpsize);
 
-
   const char* GLESUseShaderSamplers = "#extension GL_EXT_shadow_samplers : enable\n";
   Tmp = InplaceInsert(GetLine(Tmp, 1), GLESUseShaderSamplers, Tmp, &tmpsize);
-
+*/
   if(!isVertex && (FindString(Tmp, "texture2DLod"))) {
       if(hardext.shaderlod) {
         Tmp = InplaceReplace(Tmp, &tmpsize, "texture2DLod", "texture2DLodEXT");
@@ -917,7 +917,7 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
                   ishighp = 0;
                 if(/*!hardext.highp &&*/ !isVertex)
                   need->need_mvmatrix = 1;
-                  ishighp = 1  //force highp;
+                  ishighp = 1;  //force highp;
               }
               if(builtin_matrix[i].matrix == MAT_MVP) {
                 if(need->need_mvpmatrix && !hardext.highp)
