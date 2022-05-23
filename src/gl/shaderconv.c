@@ -530,8 +530,8 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
   const char* GLESUseShader3DTextures = "#extension GL_OES_texture_3D : enable\n";
   Tmp = InplaceInsert(GetLine(Tmp, 1), GLESUseShader3DTextures, Tmp, &tmpsize);
 
-  //const char* GLESUseShaderShadowSamplers = "#extension GL_EXT_shadow_samplers : enable\n";
-  //Tmp = InplaceInsert(GetLine(Tmp, 1), GLESUseShaderShadowSamplers, Tmp, &tmpsize);
+  const char* GLESUseShaderShadowSamplers = "#extension GL_EXT_shadow_samplers : enable\n";
+  Tmp = InplaceInsert(GetLine(Tmp, 1), GLESUseShaderShadowSamplers, Tmp, &tmpsize);
 
   int headline = 6;
   // check if gl_FragDepth is used
@@ -1128,7 +1128,7 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
     Tmp = InplaceReplace(Tmp, &tmpsize, "gl_MaxTextureCoords", "_gl4es_MaxTextureCoords");
   }
   if(strstr(Tmp, "gl_ClipVertex")) {
-    Tmp = InplaceInsert(GetLine(Tmp, 2), gl4es_ClipVertex, Tmp, &tmpsize);
+    Tmp = InplaceInsert(GetLine(Tmp, headline), gl4es_ClipVertex, Tmp, &tmpsize);
     headline+=CountLine(gl4es_ClipVertex);
     Tmp = InplaceReplace(Tmp, &tmpsize, "gl_ClipVertex", gl4es_ClipVertexSource);
     need->need_clipvertex = 1;
