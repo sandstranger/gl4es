@@ -524,7 +524,16 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
     memmove(Tmp, newptr, strlen(newptr)+1);
     Tmp = InplaceInsert(Tmp, GLESFullHeader, Tmp, &tmpsize);
   }
-  int headline = 3;
+  const char* GLESUseShaderNonConstantGlobalInitialzers = "#extension GL_EXT_shader_non_constant_global_initializers : enable\n";
+  Tmp = InplaceInsert(GetLine(Tmp, 1), GLESUseShaderNonConstantGlobalInitialzers, Tmp, &tmpsize);
+
+  const char* GLESUseShader3DTextures = "#extension GL_OES_texture_3D : enable\n";
+  Tmp = InplaceInsert(GetLine(Tmp, 1), GLESUseShader3DTextures, Tmp, &tmpsize);
+
+  //const char* GLESUseShaderShadowSamplers = "#extension GL_EXT_shadow_samplers : enable\n";
+  //Tmp = InplaceInsert(GetLine(Tmp, 1), GLESUseShaderShadowSamplers, Tmp, &tmpsize);
+
+  int headline = 5;
   // check if gl_FragDepth is used
   int fragdepth = (strstr(pBuffer, "gl_FragDepth"))?1:0;
   const char* GLESUseFragDepth = "#extension GL_EXT_frag_depth : enable\n";
