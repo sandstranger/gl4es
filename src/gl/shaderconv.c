@@ -533,6 +533,9 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
   const char* GLESUseShaderShadowSamplers = "#extension GL_EXT_shadow_samplers : enable\n";
   Tmp = InplaceInsert(GetLine(Tmp, 1), GLESUseShaderShadowSamplers, Tmp, &tmpsize);
 
+  Tmp = InplaceReplace(Tmp, &tmpsize, "sampler3D", "highp sampler3D");
+
+    
   int headline = 7;
   // check if gl_FragDepth is used
   int fragdepth = (strstr(pBuffer, "gl_FragDepth"))?1:0;
