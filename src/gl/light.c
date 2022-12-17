@@ -16,11 +16,11 @@ void APIENTRY_GL4ES gl4es_glLightModelf(GLenum pname, GLfloat param) {
             gl4es_glLightModelfv(pname, dummy);
             return;
         } else gl4es_flush();
-    switch (pname)
+    switch (pname){
 	case 0x4242:
             if (glstate->fpe_state)
                 glstate->fpe_state->gamma = params[0] * 100;
-            return;	{
+            return;	
         case GL_LIGHT_MODEL_TWO_SIDE:
             errorGL();
             glstate->light.two_side = param;
