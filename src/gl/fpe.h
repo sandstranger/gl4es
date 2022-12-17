@@ -217,6 +217,7 @@ typedef struct fpe_state_s {
     unsigned int blendeqalpha:3;
     uint16_t     vertex_prg_id;          // Id of vertex program currently binded (0 most of the time), 16bits is more than enough...
     uint16_t     fragment_prg_id;        // Id of fragment program currently binded (0 most of the time)
+	int16_t gamma;
 } fpe_state_t;
 #pragma pack()
 
