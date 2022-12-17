@@ -17,10 +17,6 @@ void APIENTRY_GL4ES gl4es_glLightModelf(GLenum pname, GLfloat param) {
             return;
         } else gl4es_flush();
     switch (pname){
-	case 0x4242:
-            if (glstate->fpe_state)
-                glstate->fpe_state->gamma = params[0] * 100;
-            return;	
         case GL_LIGHT_MODEL_TWO_SIDE:
             errorGL();
             glstate->light.two_side = param;
@@ -81,6 +77,10 @@ void APIENTRY_GL4ES gl4es_glLightModelfv(GLenum pname, const GLfloat* params) {
             return;
         } else gl4es_flush();
     switch (pname) {
+			case 0x4242:
+            if (glstate->fpe_state)
+                glstate->fpe_state->gamma = params[0] * 100;
+            return;	
         case GL_LIGHT_MODEL_AMBIENT:
             if(memcmp(glstate->light.ambient, params, 4*sizeof(GLfloat))==0) {
                 noerrorShim();
