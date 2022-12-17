@@ -100,5 +100,5 @@ LOCAL_CFLAGS += -Dasm=__asm__ -Dvolatile=__volatile__
 LOCAL_LDLIBS := -llog
 #building as a static lib
 
-LOCAL_CFLAGS += -DSTATICLIB
+#LOCAL_CFLAGS += -DSTATICLIB
 include $(BUILD_SHARED_LIBRARY)
