@@ -86,5 +86,6 @@ LOCAL_CFLAGS += -DNO_GBM
 
 LOCAL_LDLIBS := -ldl -llog
 
-include $(BUILD_STATIC_LIBRARY)
+LOCAL_CFLAGS += -Dasm=__asm__ -Dvolatile=__volatile__
+include $(BUILD_SHARED_LIBRARY)
 
