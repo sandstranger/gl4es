@@ -150,6 +150,7 @@ typedef struct fpe_state_s {
     unsigned int pointsprite:1;          // point sprite rendering
     unsigned int pointsprite_coord:1;    // point sprite coord replace
     unsigned int pointsprite_upper:1;    // if coord is upper left and not lower left
+	int16_t gamma;
 }__attribute__((packed)) fpe_state_t;
 
 typedef struct fpe_fpe_s {

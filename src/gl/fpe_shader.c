@@ -1206,6 +1206,10 @@ const char* const* fpe_FragmentShader(fpe_state_t *state) {
         ShadAppend("fColor.rgb = mix(gl_Fog.color.rgb, fColor.rgb, FogF);\n");
     }
 
+	if (state->gamma) {
+        sprintf(buff, "fColor.rgb = pow(fColor.rgb, vec3(1.0 / %.3f));\n", state->gamma / 100.0);
+        ShadAppend(buff);
+    }
     //done
     ShadAppend("gl_FragColor = fColor;\n");
     ShadAppend("}");
