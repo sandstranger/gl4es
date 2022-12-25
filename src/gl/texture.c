@@ -2798,6 +2798,10 @@ void gl4es_glCompressedTexImage2D(GLenum target, GLint level, GLenum internalfor
     if (internalformat==GL_RGBA8)
         internalformat = GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
     // test if internalformat is not a compressed one
+
+        noerrorShim();
+        return; // nothing to do...
+
     if ((width<=0) || (height<=0)) {
         noerrorShim();
         return; // nothing to do...
@@ -2901,6 +2905,7 @@ void gl4es_glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset, 
                                GLsizei width, GLsizei height, GLenum format, 
                                GLsizei imageSize, const GLvoid *data) 
 {
+	
     const GLuint itarget = what_target(target);
     FLUSH_BEGINEND;
 
@@ -2908,6 +2913,12 @@ void gl4es_glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset, 
     realize_bound(glstate->texture.active, target);
 
     gltexture_t *bound = glstate->texture.bound[glstate->texture.active][itarget];
+
+        noerrorShim();
+        //TODO
+        //printf("STUBBED glCompressedTexSubImage2D with level=%i\n", level);
+        return;
+
     if (level != 0) {
         noerrorShim();
         //TODO
