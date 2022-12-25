@@ -12,6 +12,13 @@ void pandora_set_gamma();
 
 void gl4es_glHint(GLenum pname, GLenum mode) {
     
+	//hack, save precomipled shader archive
+	if(pname == 41231){
+		fpe_writePSA();
+		return;
+	}
+
+	
     FLUSH_BEGINEND;
 
     LOAD_GLES(glHint);
