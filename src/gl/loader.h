@@ -83,7 +83,7 @@ typedef EGLSurface (*eglCreateStreamProducerSurfaceKHR_PTR)(EGLDisplay dpy, EGLC
 #include <string.h>
 
 #include "../glx/hardext.h"
-extern void (*gl4es_getMainFBSize)(GLint* width, GLint* height);
+
 // will become references to dlopen'd gles and egl
 extern void *gles, *egl, *bcm_host, *vcos, *gbm, *drm;
 #ifdef AMIGAOS4
