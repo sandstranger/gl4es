@@ -1063,10 +1063,10 @@ void realize_glenv(int ispoint, int first, int count, GLenum type, const void* i
                     else if(texunit==ENABLED_TEX3D) fmt = FPE_TEX_3D;
                     else fmt = FPE_TEX_2D;
                 }
-                glstate->fpe_state->texture[i].texformat = tex->fpe_format;
-                glstate->fpe_state->texture[i].texadjust = tex->adjust;
-                if(texunit==ENABLED_TEXTURE_RECTANGLE) glstate->fpe_state->texture[i].texadjust = 1;
-                glstate->fpe_state->texture[i].textype = fmt;
+                glstate->fpe_state->texformat |= tex->fpe_format<<(i*3);
+                glstate->fpe_state->texadjust |= tex->adjust<<i;
+                if(texunit==ENABLED_TEXTURE_RECTANGLE) glstate->fpe_state->texadjust |= 1<<i;
+                glstate->fpe_state->textype |= fmt<<(i*3);
             }
         }
         glstate->fpe_bound_changed = 0;
