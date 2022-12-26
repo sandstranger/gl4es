@@ -678,23 +678,14 @@ void initialize_gl4es() {
             cwd[0]='\0';
             // TODO: What to do on ANDROID and EMSCRIPTEN?
             const char* custom_psa = GetEnvVar("LIBGL_PSA_FOLDER");
-#ifdef __linux__
-            const char* home = GetEnvVar("HOME");
-            if(custom_psa)
-              strcpy(cwd, custom_psa);
-            else if(home)
-                strcpy(cwd, home);
-            if(strlen(cwd))
-              if(cwd[strlen(cwd)]!='/')
-                  strcat(cwd, "/");
-#elif defined AMIGAOS4
-            if(custom_psa)
-              strcpy(cwd, custom_psa);
-            else
-              strcpy(cwd, "PROGDIR:");
-#endif
-            if(strlen(cwd)) {
-                strcat(cwd, ".gl4es.psa");
+
+			strcpy(cwd, GetEnvVar("OPENMW_USER_FILE_STORAGE"));
+            
+			if(strlen(cwd)) {
+			if(globals4es.nohighp)
+                    strcat(cwd, ".gl4es.psa-mediump");
+                else
+                    strcat(cwd, ".gl4es.psa-highp");				
                 fpe_InitPSA(cwd);
                 fpe_readPSA();
             }
