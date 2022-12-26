@@ -186,7 +186,7 @@ const char* const* fpe_VertexShader(shaderconv_need_t* need, fpe_state_t *state)
     int cm_back_nullexp = state->cm_back_nullexp;
     int texgens = 0;
     int texmats = 0;
-    const char* fogp = hardext.highp?"highp":"mediump";
+    const char* fogp = "highp";
 
     for (int i=0; i<hardext.maxtex; ++i) {
         if(state->texgen[i].texgen_s || state->texgen[i].texgen_t || state->texgen[i].texgen_r || state->texgen[i].texgen_q)
@@ -833,7 +833,7 @@ const char* const* fpe_FragmentShader(shaderconv_need_t* need, fpe_state_t *stat
     int texenv_combine = 0;
     int texturing = 0;
     char buff[1024];
-    const char* fogp = hardext.highp?"highp":"mediump";
+    const char* fogp = "highp";
 
 
     strcpy(shad, fpeshader_signature);
@@ -1372,7 +1372,7 @@ const char* const* fpe_FragmentShader(shaderconv_need_t* need, fpe_state_t *stat
                 sprintf(buff, "%s float FogF = clamp(exp(-(gl_Fog.density * fog_c)*(gl_Fog.density * fog_c)), 0., 1.);\n", fogp);
                 break;
             case FPE_FOG_LINEAR:
-                sprintf(buff, "%s float FogF = clamp((gl_Fog.end - fog_c) %s, 0., 1.);\n", fogp, hardext.highp?"* gl_Fog.scale":"/ (gl_Fog.end - gl_Fog.start)");
+                sprintf(buff, "%s float FogF = clamp((gl_Fog.end - fog_c) * gl_Fog.scale, 0., 1.);\n", fogp);
                 break;
         }
         ShadAppend(buff);
