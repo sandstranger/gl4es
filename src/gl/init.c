@@ -677,6 +677,7 @@ void initialize_gl4es() {
         if(globals4es.nopsa==0) {
             cwd[0]='\0';
             // TODO: What to do on ANDROID and EMSCRIPTEN?
+/*
             const char* custom_psa = GetEnvVar("LIBGL_PSA_FOLDER");
 #ifdef __linux__
             const char* home = GetEnvVar("HOME");
@@ -693,8 +694,16 @@ void initialize_gl4es() {
             else
               strcpy(cwd, "PROGDIR:");
 #endif
+
+*/
+
+            strcpy(cwd, GetEnvVar("OPENMW_USER_FILE_STORAGE"));
+
             if(strlen(cwd)) {
-                strcat(cwd, ".gl4es.psa");
+                if(globals4es.nohighp)
+                    strcat(cwd, ".gl4es.psa-mediump");
+                else
+                    strcat(cwd, ".gl4es.psa-highp");
                 fpe_InitPSA(cwd);
                 fpe_readPSA();
             }

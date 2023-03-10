@@ -196,9 +196,9 @@ static const char* gl4es_FogParametersSource =
 "struct gl_FogParameters {\n"
 "    lowp vec4 color;\n"
 "    mediump float density;\n"
-"    mediump float start;\n"
-"    mediump float end;\n"
-"    mediump float scale;\n"   // Derived:   1.0 / (end - start) 
+"    highp float start;\n"
+"    highp float end;\n"
+"    highp float scale;\n"   // Derived:   1.0 / (end - start) 
 "};\n"
 "uniform gl_FogParameters gl_Fog;\n";
 static const char* gl4es_FogParametersSourceHighp =
@@ -919,8 +919,9 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
               if(builtin_matrix[i].matrix == MAT_MV) {
                 if(need->need_mvmatrix && !hardext.highp)
                   ishighp = 0;
-                if(!hardext.highp && !isVertex)
+                if(/*!hardext.highp &&*/ !isVertex)
                   need->need_mvmatrix = 1;
+                  ishighp = 1  //force highp;
               }
               if(builtin_matrix[i].matrix == MAT_MVP) {
                 if(need->need_mvpmatrix && !hardext.highp)
