@@ -921,7 +921,7 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
                   ishighp = 0;
                 if(/*!hardext.highp &&*/ !isVertex)
                   need->need_mvmatrix = 1;
-                  ishighp = 1  //force highp;
+                  ishighp = 1;  //force highp;
               }
               if(builtin_matrix[i].matrix == MAT_MVP) {
                 if(need->need_mvpmatrix && !hardext.highp)
