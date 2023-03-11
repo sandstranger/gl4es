@@ -540,6 +540,7 @@ static char* ShaderHacks_2(char* shader, char* Tmp, int* tmpsize)
 
 char* ShaderHacks(char* shader)
 {
+/*
     char* Tmp = shader;
     int tmpsize = strlen(Tmp)+10;
     // specific hacks
@@ -557,5 +558,6 @@ char* ShaderHacks(char* shader)
             }
         }
     }
-    return Tmp;
+*/
+    return shader;
 }
