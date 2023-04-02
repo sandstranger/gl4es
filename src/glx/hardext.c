@@ -323,7 +323,7 @@ void GetHardwareExtensions(int notest)
     if(globals4es.floattex) {
         S("GL_OES_texture_float ", floattex, 1);
         S("GL_OES_texture_half_float ", halffloattex, 1);
-        S("GL_EXT_color_buffer_float ", floatfbo, 1);
+        S("GL_EXT_color_buffer_float ", floatfbo, 0);
         S("GL_EXT_color_buffer_half_float ", halffloatfbo, 1);
     }
     S("GL_AOS4_texture_format_RGB332", rgb332, 0);
