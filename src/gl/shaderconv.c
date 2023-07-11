@@ -1263,6 +1263,8 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
     printf("New Shader source:\n%s\n", Tmp);
   }
   // clean preproc'd source
+  if(versionString != NULL)
+    free(versionString);
   if(pEntry!=pBuffer)
     free(pBuffer);
   return Tmp;
