@@ -237,7 +237,7 @@ GLenum get_texture_min_filter(gltexture_t* texture, glsampler_t* sampler)
     GLenum ret = sampler->min_filter;
     if ((globals4es.automipmap==3) 
     || ((globals4es.automipmap==1) && (texture->mipmap_auto==0)) 
-    || (texture->compressed && (texture->mipmap_auto==0))) {
+    /*|| (texture->compressed && (texture->mipmap_auto==0))*/) {
         switch (ret) {
             case GL_NEAREST_MIPMAP_NEAREST:
             case GL_NEAREST_MIPMAP_LINEAR:

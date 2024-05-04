@@ -320,6 +320,14 @@ void GetHardwareExtensions(int notest)
     }
     S("GL_OES_draw_texture ", drawtex, 1);
     S("GL_EXT_texture_rg ", rgtex, 1);
+    S("GL_EXT_clip_control ", clipcontrol, 1);
+    S("GL_EXT_texture_compression_s3tc ", dxtCompression, 1);
+    S("GL_EXT_texture_compression_dxt1 ", dxt1, 1);
+    S("GL_EXT_texture_compression_dxt3 ", dxt3, 1);
+    S("GL_EXT_texture_compression_dxt5 ", dxt5, 1);
+    S("GL_ANGLE_texture_compression_dxt1 ", dxt1angle, 1);
+    S("GL_ANGLE_texture_compression_dxt3 ", dxt3angle, 1);
+    S("GL_ANGLE_texture_compression_dxt5 ", dxt5angle, 1);
     if(globals4es.floattex) {
         S("GL_OES_texture_float ", floattex, 1);
         S("GL_OES_texture_half_float ", halffloattex, 1);
