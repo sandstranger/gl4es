@@ -134,8 +134,8 @@ GLuint APIENTRY_GL4ES gl4es_glCreateProgram(void) {
     return program;
 }
 
-void actualy_deleteshader(GLuint shader);
-void actualy_detachshader(GLuint shader);
+void actually_deleteshader(GLuint shader);
+void actually_detachshader(GLuint shader);
 
 void deleteProgram(program_t *glprogram, khint_t k_program) {
     free(glprogram->attach);
@@ -183,7 +183,7 @@ void APIENTRY_GL4ES gl4es_glDeleteProgram(GLuint program) {
     // TODO: check GL ERROR to not clean in case of error?
     // clean attached shaders
     for (int i=0; i<glprogram->attach_size; i++) {
-        actualy_detachshader(glprogram->attach[i]); // auto delete if marqued as delete!
+        actually_detachshader(glprogram->attach[i]); // auto delete if marked as delete!
     }
     deleteProgram(glprogram, k_program);
 }
@@ -210,7 +210,7 @@ void APIENTRY_GL4ES gl4es_glDetachShader(GLuint program, GLuint shader) {
     } else
         noerrorShim();
     // marked as detached
-    actualy_detachshader(shader);
+    actually_detachshader(shader);
 }
 
 void APIENTRY_GL4ES gl4es_glGetActiveAttrib(GLuint program, GLuint index, GLsizei bufSize, GLsizei *length, GLint *size, GLenum *type, GLchar *name) {
@@ -955,7 +955,7 @@ GLvoid APIENTRY_GL4ES gl4es_glGetObjectParameteriv(GLhandleARB obj, GLenum pname
         gl4es_glGetProgramiv(obj, pname, params);
     else
         gl4es_glGetShaderiv(obj, pname, params);
-    // hack, some program don't take into account that the lenght return by GL_OBJECT_INFO_LOG_LENGTH_ARB exclude the '\0'.. so adding it here
+    // hack, some programs don't take into account that the length returned by GL_OBJECT_INFO_LOG_LENGTH_ARB exclude the '\0'.. so adding it here
     if(pname==GL_INFO_LOG_LENGTH)
         (*params)++;
 }

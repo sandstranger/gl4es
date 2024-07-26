@@ -33,7 +33,7 @@ Version history
 * Added support for multiple FBO attachement (if hardware support it)
 
 ##### v1.1.2
-* Improved a bit the merger (wich merge subsequent `glBegin(...)`/`glEnd()`) efficiency
+* Improved a bit the merger (which merge subsequent `glBegin(...)`/`glEnd()`) efficiency
 * Removed LIBGL_BEGINEND=2 (that was not working correctly, and it complexify the code too much)
 * Added some Direct Access function (from EXT_direct_access)
 * Fixes and Improvements on depth (and depth_Stencil) Texture handling
@@ -80,7 +80,7 @@ Version history
 * Added support for GL_ARB_draw_elements_base_vertex
 
 ##### v1.0.8
-* Fixes and improvments to avoid unnecessary GLES state changes
+* Fixes and improvements to avoid unnecessary GLES state changes
 * Fixes some memory issues with glBitmap
 * Fixes to FPE (when using multitexture and GL_COMBINE)
 * Added some TexEnv extension for GLES2 backend
@@ -136,8 +136,8 @@ Version history
  * Tracking Clip Planes
  * Refactor Blitting function, and use glDrawTex extension if present
  * Restructured README and split in several files
- * Some improvments and fixes to LIBGL_BEGINEND=2 mode
- * Some improvments to some LIBGL_SHRINK mode
+ * Some improvements and fixes to LIBGL_BEGINEND=2 mode
+ * Some improvements to some LIBGL_SHRINK mode
  * Proper support for DOT3 extension
  * Some fixes to Read/Draw Buffer handling
  * Some fix with the PixMap glX context creation

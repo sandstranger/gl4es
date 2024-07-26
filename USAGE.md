@@ -122,7 +122,7 @@ Control the availability of the LUMINANCE_ALPHA format (can be buggy on Pandora 
 ##### LIBGL_BLENDHACK
 Experimental: Change Blend GL_SRC_ALPHA, GL_ONE to GL_ONE, GL_ONE
  * 0 : Default, nothing special
- * 1 : Change Blend GL_SRC_ALPHA, GL_ONE to GL_ONE, GL_ONE (can be usefull for Xash3D engine)
+ * 1 : Change Blend GL_SRC_ALPHA, GL_ONE to GL_ONE, GL_ONE (can be useful for Xash3D engine)
 
 ##### LIBGL_BLENDCOLOR
 Hack: Export a (faked) glBlendColor
@@ -248,7 +248,7 @@ Comments in shaders are kept (also for generated shaders by fpe_shaders)
 
 ##### LIBGL_DEFAULTWRAP
 Hack to define default WRAP mode for texture
-* 0 : Default wrap mode is GL_REPEAT (normal OpenGL behavour): default on NPOT hardware
+* 0 : Default wrap mode is GL_REPEAT (normal OpenGL behaviour): default on NPOT hardware
 * 1 : Default wrap mode is GL_CLAMP_TO_EDGE: default on limited NPOT or non-NPOT hardware
 * 2 : Default wrap mode is GL_CLAMP_TO_EDGE, enforced (not advised)
 
@@ -265,7 +265,7 @@ For the Color Attachment 0 to be a Texture2D (even if program attachs a Renderbu
 ##### LIBGL_BLITFULLSCREEN
 Hack to trigger a SwapBuffers when a Full Framebuffer Blit on default FBO is done
 * 0 : Don't force
-* 1 : Default: Activate the hack (usefull with Wine/D3D)
+* 1 : Default: Activate the hack (useful with Wine/D3D)
 
 ##### LIBGL_NOARBPROGRAM
 Don't expose ARB Program extensions (GL_ARB_vertex_program, GL_ARB_fragment_program and GL_EXT_program_parameters)
@@ -319,7 +319,7 @@ Define EGL lib to use. Default folder are the standard one for dynamic library l
 * /path/to/filename: try to use exact path/filename. If not found/loaded, default one will be tried.
 
 ##### LIBGL_GLES
-Define GLES(2) lib to use. Default folder are the standard one for dynamic library loading (LD_LIBRARY_PATH and friend) plus "/opt/vc/lib/", /usr/local/lib/" and "/usr/lib/". Be sure to point to correct GLES library depending on wich GLES backend you are using.
+Define GLES(2) lib to use. Default folder are the standard one for dynamic library loading (LD_LIBRARY_PATH and friend) plus "/opt/vc/lib/", /usr/local/lib/" and "/usr/lib/". Be sure to point to correct GLES library depending on which GLES backend you are using.
 * by default try to use libGLESv1_CM, libGLES_CM or libbrcmGLESv1_CM for GLES1.1 and libGLESv2_CM, libGLESv2 or libbrcmGLESv2 for GLES2 backend
 * filename: try to load from the defaults folder (don't forget to use complete filename, with ".so" extension). If not found/loaded, default one will be tried.
 * /path/to/filename: try to use exact path/filename. If not found/loaded, default one will be tried.
