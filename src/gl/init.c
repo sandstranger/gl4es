@@ -697,7 +697,7 @@ void initialize_gl4es() {
 
 */
 
-            strcpy(cwd, GetEnvVar("OPENMW_USER_FILE_STORAGE"));
+            strcpy(cwd, GetEnvVar("ARX_DATA_PATH"));
 
             if(strlen(cwd)) {
                 if(globals4es.nohighp)

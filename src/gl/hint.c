@@ -5,6 +5,7 @@
 #include "loader.h"
 #include "gl4es.h"
 #include "glstate.h"
+#include "fpe_cache.h"
 
 #ifdef PANDORA
 void pandora_set_gamma();
