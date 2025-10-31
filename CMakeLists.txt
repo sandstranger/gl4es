@@ -2,14 +2,6 @@ cmake_minimum_required(VERSION 3.10)
 
 project(gl4es)
 
-if (DEFINED CMAKE_BUILD_TYPE AND CMAKE_BUILD_TYPE STREQUAL "Debug")
-    set(PATH_TO_MIMALLOC_LIBRARY ${CMAKE_SOURCE_DIR}/../../../../../mimalloc/build/intermediates/prefab_package/debug/prefab/modules/mimalloc-static/libs/android.${ANDROID_ABI}/libmimalloc-debug.a)
-else ()
-    set(PATH_TO_MIMALLOC_LIBRARY ${CMAKE_SOURCE_DIR}/../../../../../mimalloc/build/intermediates/prefab_package/release/prefab/modules/mimalloc-static/libs/android.${ANDROID_ABI}/libmimalloc.a )
-endif ()
-
-link_libraries(-Wl,--whole-archive ${PATH_TO_MIMALLOC_LIBRARY} -Wl,--no-whole-archive)
-
 set(CMAKE_CXX_STANDARD 20)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
