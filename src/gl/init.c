@@ -684,7 +684,15 @@ void initialize_gl4es() {
             cwd[0]='\0';
             // TODO: What to do on ANDROID and EMSCRIPTEN?
             const char* custom_psa = GetEnvVar("LIBGL_PSA_FOLDER");
-#ifdef __linux__
+#ifdef ANDROID
+            if(custom_psa) {
+                strcpy(cwd, custom_psa);
+            }
+            if(strlen(cwd))
+                if(cwd[strlen(cwd)]!='/')
+                    strcat(cwd, "/");
+
+#elif __linux__
             const char* home = GetEnvVar("HOME");
             if(custom_psa)
               strcpy(cwd, custom_psa);
