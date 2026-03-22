@@ -66,6 +66,9 @@ void updateEnableAngleState(bool enableAngle){
     g_enableAngle = enableAngle;
 }
 
+__attribute__((used)) __attribute__((visibility("default")))
+void updateSimpleShaderConvState(int shaderConvState){}
+
 EXPORT
 void set_getmainfbsize(void (APIENTRY_GL4ES  *new_getMainFBSize)(int* w, int* h)) {
     gl4es_getMainFBSize = (void*)new_getMainFBSize;
