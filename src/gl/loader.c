@@ -47,6 +47,9 @@ struct HINSTANCE__* __stdcall LoadLibraryW(const wchar_t*);
 #define DEFAULT_EGL NULL
 #endif
 
+#define EGL_ANGLE          "libEGL_angle.so"
+#define OGL_ES2_ANGLE      "libGLESv2_angle.so"
+
 void *gles = NULL, *egl = NULL, *bcm_host = NULL, *vcos = NULL, *gbm = NULL, *drm = NULL;
 #ifndef _WIN32
 #ifndef NO_GBM
@@ -59,6 +62,8 @@ static const char *gbm_lib[] = {
     NULL
 };
 #endif
+
+extern bool g_enableAngle;
 
 static const char *path_prefix[] = {
     "",
@@ -161,7 +166,7 @@ void load_libs() {
     if (! first) return;
     first = 0;
 #ifndef _WIN32
-    const char *gles_override = GetEnvVar("LIBGL_GLES");
+    const char *gles_override = g_enableAngle ? OGL_ES2_ANGLE : DEFAULT_GLES;
     if (!gles_override) {
         gles_override = DEFAULT_GLES;
 #if defined(BCMHOST) && !defined(ANDROID)
@@ -183,7 +188,7 @@ void load_libs() {
 #ifdef NOEGL
     egl = gles;
 #elif !defined(_WIN32)
-    const char *egl_override = GetEnvVar("LIBGL_EGL");
+    const char *egl_override = g_enableAngle ? EGL_ANGLE : DEFAULT_EGL;
     if (!egl_override) {
         egl_override = DEFAULT_EGL;
     }

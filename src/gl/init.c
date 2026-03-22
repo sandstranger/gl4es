@@ -54,10 +54,17 @@ static void fast_math() {
 #endif
 #endif
 
+bool g_enableAngle = false;
+
 void load_libs();
 void glx_init();
 
 static int inited = 0;
+
+__attribute__((used)) __attribute__((visibility("default")))
+void updateEnableAngleState(bool enableAngle){
+    g_enableAngle = enableAngle;
+}
 
 EXPORT
 void set_getmainfbsize(void (APIENTRY_GL4ES  *new_getMainFBSize)(int* w, int* h)) {
