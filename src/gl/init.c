@@ -62,15 +62,9 @@ void glx_init();
 static int inited = 0;
 
 __attribute__((used)) __attribute__((visibility("default")))
-void updateEnableAngleState(bool enableAngle){
+void initializeGL4ESData(bool enableSimpleShaderConv,bool enableAngle,int targetESVersion) {
     g_enableAngle = enableAngle;
 }
-
-__attribute__((used)) __attribute__((visibility("default")))
-void updateSimpleShaderConvState(int shaderConvState){}
-
-__attribute__((used)) __attribute__((visibility("default")))
-void setESVersion(int targetESVersion){}
 
 EXPORT
 void set_getmainfbsize(void (APIENTRY_GL4ES  *new_getMainFBSize)(int* w, int* h)) {
