@@ -55,6 +55,7 @@ static void fast_math() {
 #endif
 
 bool g_enableAngle = false;
+static bool g_nohighp = false;
 
 void load_libs();
 void glx_init();
@@ -62,8 +63,10 @@ void glx_init();
 static int inited = 0;
 
 __attribute__((used)) __attribute__((visibility("default")))
-void initializeGL4ESData(bool enableSimpleShaderConv,bool enableAngle,int targetESVersion) {
+void initializeGL4ESData(bool enableSimpleShaderConv,bool enableAngle,int targetESVersion,
+                         bool nohighp) {
     g_enableAngle = enableAngle;
+    g_nohighp = nohighp;
 }
 
 EXPORT
@@ -242,7 +245,7 @@ void initialize_gl4es() {
 #else
     int gl4es_notest = IsEnvVarTrue("LIBGL_NOTEST");
 #endif
-    globals4es.nohighp = 1;
+    globals4es.nohighp = g_nohighp ? 1 :0 ;
 //    env(LIBGL_NOHIGHP, globals4es.nohighp, "Do not use HIGHP in fragment shader even if detected");
 
     globals4es.floattex=ReturnEnvVarIntDef("LIBGL_FLOAT", 1);
