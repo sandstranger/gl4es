@@ -387,9 +387,7 @@ void initialize_gl4es() {
       SHUT_LOGD("Stub/non present functions are printed");
     }
 
-    globals4es.vabgra = 1;
-    
-//    env(LIBGL_VABGRA, globals4es.vabgra, "Export GL_ARB_vertex_array_bgra extension");
+    env(LIBGL_VABGRA, globals4es.vabgra, "Export GL_ARB_vertex_array_bgra extension");
 
     const char *env_version = GetEnvVar("LIBGL_VERSION");
     if (env_version) {
