@@ -144,43 +144,95 @@ void APIENTRY_GL4ES gl4es_glCompileShader(GLuint shader) {
         noerrorShim();
 }
 
+extern void shadercache_build_key(GLenum shader_type, const char* source, char* out, size_t outsz);
+extern int shadercache_load(const char* key, char** out_source);
+extern void shadercache_store(const char* key, const char* source);
+
 void APIENTRY_GL4ES gl4es_glShaderSource(GLuint shader, GLsizei count, const GLchar * const *string, const GLint *length) {
+    char cacheKey[1024];
+    char *cachedSource = NULL;
+    const GLchar *sources[1];
+
     DBG(printf("glShaderSource(%d, %d, %p, %p)\n", shader, count, string, length);)
+
     // sanity check
-    if(count<=0) {
+    if (count <= 0 || !string) {
         errorShim(GL_INVALID_VALUE);
         return;
     }
+
     CHECK_SHADER(void, shader)
+
     // get the size of the shader sources and than concatenate in a single string
     int l = 0;
-    for (int i=0; i<count; i++) l+=(length && length[i] >= 0)?length[i]:strlen(string[i]);
-    if(glshader->source) free(glshader->source);
-    glshader->source = malloc(l+1);
-    memset(glshader->source, 0, l+1);
-    if(length) {
-        for (int i=0; i<count; i++) {
-            if(length[i] >= 0)
+    for (int i = 0; i < count; i++)
+        l += (length && length[i] >= 0) ? length[i] : strlen(string[i]);
+
+    if (glshader->source) {
+        free(glshader->source);
+        glshader->source = NULL;
+    }
+
+    glshader->source = malloc(l + 1);
+    memset(glshader->source, 0, l + 1);
+
+    if (length) {
+        for (int i = 0; i < count; i++) {
+            if (length[i] >= 0)
                 strncat(glshader->source, string[i], length[i]);
             else
                 strcat(glshader->source, string[i]);
         }
     } else {
-        for (int i=0; i<count; i++)
+        for (int i = 0; i < count; i++)
             strcat(glshader->source, string[i]);
     }
+
+    shadercache_build_key(glshader->type, glshader->source, cacheKey, sizeof(cacheKey));
+
+    if (shadercache_load(cacheKey, &cachedSource)) {
+        if (glshader->converted) {
+            free(glshader->converted);
+            glshader->converted = NULL;
+        }
+
+        glshader->converted = strdup(cachedSource);
+        free(cachedSource);
+
+        sources[0] = glshader->converted;
+        LOAD_GLES2(glShaderSource);
+        if (gles_glShaderSource) {
+            gles_glShaderSource(shader, 1, sources, NULL);
+            errorGL();
+        } else {
+            noerrorShim();
+        }
+
+        return;
+    }
+
     LOAD_GLES2(glShaderSource);
     if (gles_glShaderSource) {
         // adapt shader if needed (i.e. not an es2 context and shader is not #version 100)
-        if(glstate->glsl->es2 && !strncmp(glshader->source, "#version 100", 12))
+        if (glstate->glsl->es2 && !strncmp(glshader->source, "#version 100", 12))
             glshader->converted = strdup(glshader->source);
         else
-            glshader->converted = ConvertShader(glshader->source, glshader->type==GL_VERTEX_SHADER?1:0, &glshader->need);
+            glshader->converted = ConvertShader(glshader->source, glshader->type == GL_VERTEX_SHADER ? 1 : 0, &glshader->need);
+
+        // save converted result to cache
+        if (glshader->converted) {
+            shadercache_store(cacheKey, glshader->converted);
+            sources[0] = glshader->converted;
+        } else {
+            sources[0] = glshader->source;
+        }
+
         // send source to GLES2 hardware if any
-        gles_glShaderSource(shader, 1, (const GLchar * const*)((glshader->converted)?(&glshader->converted):(&glshader->source)), NULL);
+        gles_glShaderSource(shader, 1, sources, NULL);
         errorGL();
-    } else
+    } else {
         noerrorShim();
+    }
 }
 
 #define SUPER()     \

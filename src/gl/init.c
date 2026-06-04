@@ -56,17 +56,20 @@ static void fast_math() {
 
 bool g_enableAngle = false;
 static bool g_nohighp = false;
+char *path_to_shader_cache = NULL;
 
 void load_libs();
 void glx_init();
+extern void gl4es_shadercache_set_root(const char* root_dir);
 
 static int inited = 0;
 
 __attribute__((used)) __attribute__((visibility("default")))
-void initializeGL4ESData(bool enableSimpleShaderConv,bool enableAngle,int targetESVersion,
-                         bool nohighp) {
+void initializeGL4ESData(const bool enableSimpleShaderConv, const bool enableAngle, const int targetESVersion,
+                         const bool nohighp, const char* pathToShaderCache) {
     g_enableAngle = enableAngle;
     g_nohighp = nohighp;
+    path_to_shader_cache = strdup(pathToShaderCache);
 }
 
 EXPORT
@@ -98,6 +101,9 @@ void initialize_gl4es() {
        LOGE("Windows ES emulator's can't be initialized from DllMain (directX limitation)\n");
        return;
     }
+#endif
+#if ANDROID
+    gl4es_shadercache_set_root(path_to_shader_cache);
 #endif
     // only init 1 time
     if(inited++) return;
