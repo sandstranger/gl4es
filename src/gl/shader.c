@@ -195,7 +195,8 @@ void APIENTRY_GL4ES gl4es_glShaderSource(GLuint shader, GLsizei count, const GLc
             free(glshader->converted);
             glshader->converted = NULL;
         }
-
+        extern void initGl4esVa();
+        initGl4esVa();
         glshader->converted = strdup(cachedSource);
         free(cachedSource);
 

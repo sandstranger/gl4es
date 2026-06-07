@@ -437,6 +437,15 @@ static const char* gl4es_VertexAttrib = "_gl4es_VertexAttrib_";
 char gl_VA[MAX_VATTRIB][32] = {0};
 char gl4es_VA[MAX_VATTRIB][32] = {0};
 
+void initGl4esVa(){
+    if(gl_VA[0][0]=='\0') {
+        for (int i=0; i<MAX_VATTRIB; ++i) {
+            sprintf(gl_VA[i], "%s%d", gl_VertexAttrib, i);
+            sprintf(gl4es_VA[i], "%s%d", gl4es_VertexAttrib, i);
+        }
+    }
+}
+
 char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
 {
   #define ShadAppend(S) Tmp = gl4es_append(Tmp, &tmpsize, S)
