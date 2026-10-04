@@ -172,6 +172,7 @@ void* NewGLState(void* shared_glstate, int es2only) {
     //raster & viewport
     glstate->raster.raster_zoomx=1.0f;
     glstate->raster.raster_zoomy=1.0f;
+    glstate->raster.rPos_valid = GL_TRUE;
     glstate->raster.map_i2i_size=1;
     glstate->raster.map_i2r_size=1;
     glstate->raster.map_i2g_size=1;
@@ -297,6 +298,9 @@ void* NewGLState(void* shared_glstate, int es2only) {
     glstate->depth.mask = GL_TRUE;
     glstate->depth.Far  = 1.0f;
     glstate->depth.clear= 1.0f;
+    // Line width, mipmap hint
+    glstate->line_width = 1.0f;
+    glstate->mipmap_hint = GL_DONT_CARE;
     // Face
     glstate->face.cull  = GL_BACK;
     glstate->face.front = GL_CCW;
@@ -390,6 +394,8 @@ void* NewGLState(void* shared_glstate, int es2only) {
     LOAD_GLES(glGetIntegerv);
     gles_glGetIntegerv(GL_VIEWPORT, (GLint*)&glstate->raster.viewport);
     gles_glGetIntegerv(GL_SCISSOR_BOX, (GLint*)&glstate->raster.scissor);
+    glstate->raster.viewport_known = 1;
+    glstate->raster.scissor_known = 1;
 #if defined(AMIGAOS4) || defined(__EMSCRIPTEN__)
     }
 #endif
@@ -614,6 +620,8 @@ void ActivateGLState(void* new_glstate) {
         LOAD_GLES(glGetIntegerv);
         gles_glGetIntegerv(GL_VIEWPORT, (GLint*)&newstate->raster.viewport);
         gles_glGetIntegerv(GL_SCISSOR_BOX, (GLint*)&newstate->raster.scissor);
+        newstate->raster.viewport_known = 1;
+        newstate->raster.scissor_known = 1;
     }
     glstate = newstate;
 }
