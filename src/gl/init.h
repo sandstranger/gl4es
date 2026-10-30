@@ -10,6 +10,7 @@ typedef struct _globals4es {
  int mergelist;
  int xrefresh;
  int stacktrace;
+ int nolinestrip;
  int usefb;
  int usegbm;
  int usefbo;
@@ -18,6 +19,7 @@ typedef struct _globals4es {
  int showfps;
  int vsync;
  int automipmap;
+ int vertexfog;
  int texcopydata;
  int tested_env;
  int texshrink;

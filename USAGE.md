@@ -376,6 +376,11 @@ Force normals to be normliazed in FPE
 * 0 : Default, don't force normalizations
 * 1 : Force normalization on normals on FPE, even when it's disabled (workaround for a bug that prevent colors on Minecraft 1.16+)
 
+##### LIBGL_VERTEXFOG
+Fog computed per vertex instead of per pixel, for the fixed pipeline (GLES2 backend only)
+ * 0 : Default, fog is computed per pixel
+ * 1 : Fog is computed per vertex and interpolated, unless the application sets GL_FOG_HINT to GL_NICEST. Faster on fill-rate-limited GPUs, less accurate on large polygons
+
 ###### LIBGL_BLITFB0
 Blit to FB 0 force a SwapBuffer
 * 0 : Default, don't force a SwapBuffer when glBlitFramebuffer to draw fb0 is used (unless the full FB0 if blitted)
@@ -385,3 +390,8 @@ Blit to FB 0 force a SwapBuffer
 Use RTLD_DEEPBIND when loading EGL and GLES library
 * 0 : Default except on PYRA, use RTLD_DEEPBIND when loading EGL/GLES libraries
 * 1 : Default only on PYRA, don't use RTLD_DEEPBIND when loading EGL/GLES libraries
+
+##### LIBGL_NOLINESTRIP
+Draw GL_LINE_STRIP from glDrawArrays with glDrawElements and sequential indices (GLES2 backend only)
+ * 0 : Default, except on PowerVR SGX 545: use glDrawArrays as is
+ * 1 : Default on PowerVR SGX 545, whose driver (DDK 1.7) draws GL_LINE_STRIP from glDrawArrays wrong. Off when LIBGL_NOTEST=1 (the renderer is unknown then) unless set explicitly

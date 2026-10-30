@@ -66,6 +66,7 @@ struct glstate_s {
     int                 *shared_cnt;
     light_state_t       light;
     fog_t               fog;
+    GLenum              fog_hint;
     material_state_t    material;
     stencil_t           stencil;
     float               planes[MAX_CLIP_PLANES][4];
@@ -140,6 +141,8 @@ struct glstate_s {
     GLfloat             clear_color[4];
     GLfloat             line_width;
     GLenum              mipmap_hint;
+    GLfloat             polygon_offset_factor;  // glPolygonOffset, also for the
+    GLfloat             polygon_offset_units;   // polygon-mode line depth bias
 }; // glstate_t defined in oldprogram.h
 
 

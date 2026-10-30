@@ -7,7 +7,12 @@
 #include "loader.h"
 #include "light.h"
 #include "matvec.h"
+#include "line.h"
 #include "texgen.h"
+
+#ifndef GL_LINE_WIDTH_GRANULARITY
+#define GL_LINE_WIDTH_GRANULARITY 0x0B23
+#endif
 
 //#define DEBUG
 #ifdef DEBUG
@@ -315,6 +320,15 @@ int gl4es_commonGet(GLenum pname, GLfloat *params) {
         case GL_DOUBLEBUFFER:
             *params = 1;    // Fake double buffering...
             break;
+        case GL_POLYGON_OFFSET_FACTOR:
+            *params = glstate->polygon_offset_factor;
+            break;
+        case GL_POLYGON_OFFSET_UNITS:
+            *params = glstate->polygon_offset_units;
+            break;
+        case GL_LINE_WIDTH_GRANULARITY:
+            *params = 1.0f;
+            break;
         case GL_MAX_ELEMENTS_INDICES:
             *params = 1024;
             break;
@@ -339,6 +353,12 @@ int gl4es_commonGet(GLenum pname, GLfloat *params) {
             break;
         case GL_MAX_TEXTURE_COORDS:
             *params = hardext.maxtex;
+            break;
+        case GL_ACTIVE_TEXTURE:
+            *params = GL_TEXTURE0 + glstate->texture.active;
+            break;
+        case GL_CLIENT_ACTIVE_TEXTURE:
+            *params = GL_TEXTURE0 + glstate->texture.client;
             break;
         case GL_PACK_ALIGNMENT:
             *params = glstate->texture.pack_align;
@@ -753,7 +773,7 @@ int gl4es_commonGet(GLenum pname, GLfloat *params) {
             break;
         case GL_FOG_HINT:
             if(hardext.esversion==1) return 0; // fall back to actual glGet
-            *params=GL_DONT_CARE;
+            *params=glstate->fog_hint;
             break;
         case GL_TEXTURE_COMPRESSION_HINT:
             *params=GL_DONT_CARE;
@@ -886,6 +906,15 @@ void APIENTRY_GL4ES gl4es_glGetIntegerv(GLenum pname, GLint *params) {
         case GL_ALIASED_POINT_SIZE_RANGE:
             gles_glGetIntegerv(GL_ALIASED_POINT_SIZE_RANGE, params);
             break;
+        case GL_SMOOTH_LINE_WIDTH_RANGE: /* also GL_LINE_WIDTH_RANGE 0x0B22 */
+        case GL_ALIASED_LINE_WIDTH_RANGE:
+            if (hardext.maxlinewidth > 1) {
+                gles_glGetIntegerv(GL_ALIASED_LINE_WIDTH_RANGE, params);
+            } else {
+                params[0] = 1;
+                params[1] = (GLint)GL4ES_EMULATED_LINE_WIDTH_MAX;
+            }
+            break;
         case GL_NUM_COMPRESSED_TEXTURE_FORMATS:
             gles_glGetIntegerv(GL_NUM_COMPRESSED_TEXTURE_FORMATS, params);
             (*params)+=4;	// adding fake DXTc
@@ -987,6 +1016,15 @@ void APIENTRY_GL4ES gl4es_glGetFloatv(GLenum pname, GLfloat *params) {
         case GL_ALIASED_POINT_SIZE_RANGE:
             gles_glGetFloatv(GL_ALIASED_POINT_SIZE_RANGE, params);
             break;
+        case GL_SMOOTH_LINE_WIDTH_RANGE: /* also GL_LINE_WIDTH_RANGE 0x0B22 */
+        case GL_ALIASED_LINE_WIDTH_RANGE:
+            if (hardext.maxlinewidth > 1) {
+                gles_glGetFloatv(GL_ALIASED_LINE_WIDTH_RANGE, params);
+            } else {
+                params[0] = 1.f;
+                params[1] = GL4ES_EMULATED_LINE_WIDTH_MAX;
+            }
+            break;
         case GL_TRANSPOSE_PROJECTION_MATRIX:
             matrix_transpose(TOP(projection_matrix), params);
             break;
@@ -1068,6 +1106,16 @@ void APIENTRY_GL4ES gl4es_glGetDoublev(GLenum pname, GLdouble *params) {
         case GL_POINT_SIZE_RANGE:
         case GL_ALIASED_POINT_SIZE_RANGE:
             gles_glGetFloatv(GL_ALIASED_POINT_SIZE_RANGE, tmp);
+            params[0] = tmp[0]; params[1] = tmp[1];
+            break;
+        case GL_SMOOTH_LINE_WIDTH_RANGE: /* also GL_LINE_WIDTH_RANGE 0x0B22 */
+        case GL_ALIASED_LINE_WIDTH_RANGE:
+            if (hardext.maxlinewidth > 1) {
+                gles_glGetFloatv(GL_ALIASED_LINE_WIDTH_RANGE, tmp);
+            } else {
+                tmp[0] = 1.f;
+                tmp[1] = GL4ES_EMULATED_LINE_WIDTH_MAX;
+            }
             params[0] = tmp[0]; params[1] = tmp[1];
             break;
         case GL_TRANSPOSE_PROJECTION_MATRIX:
