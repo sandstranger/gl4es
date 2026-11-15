@@ -61,6 +61,7 @@ LOCAL_SRC_FILES := \
 	src/gl/pointsprite.c \
 	src/gl/preproc.c \
 	src/gl/program.c \
+	src/gl/accum.c \
 	src/gl/queries.c \
 	src/gl/raster.c \
 	src/gl/render.c \
